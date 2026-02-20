@@ -1,0 +1,19 @@
+What is a symlink (symbolic link, soft link)?
+A special kind of file that serves as a pointer to another file/directory.
+It stores the pathname of the target file/directory.  The OS automatically
+resolves to the target file/directory when the symlink is accessed.  This 
+is why if the target file is deleted or moved, the symlink becomes dangling. 
+A symbolic link can also point to files/directories in another file system
+on the same or remote drive.  The purpose of symbolic links is to simplify paths and allow access to files across different file systems on the same drive or remote drives.
+
+To create a symlink, use the link command ln:
+ln -s <path_to_existing_file/directory> <path_to_symlink_file>
+Now, the file/directory can be accessed using the symlink just like the original
+
+To see the symlink:
+ls -l
+Example output: lrwxrwxrwx 1 user group 8 Feb 20 18:00 symlink -> target
+An 'l' appears at the beginning of permissions column
+
+To remove a symlink:
+rm <path_to_symlink_file>

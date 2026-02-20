@@ -36,7 +36,9 @@ ls -al # for hidden files as well
 # There are three groups of three permissions each, the first three letters after d are 
 # permissions for the owner of the file, the next three are for the group that owns the file, and 
 # the last three are permissions for everyone else
-# in the result for ls -l command, the third column is user owner, the fourth column is group owner
+# in the result for ls -l command, the second column shows the number of hard links to the file,
+# the third column is the user that owns the file, the fourth column is group owner
+# the fifth column is the last date and time the file was touched, meaning created/updated
 
 # list directories and its subdirectories/files recursively
 ls -R
@@ -385,6 +387,7 @@ $     matches characters at the end of a line
     "marketCap": 1093175428640.1146,
     "availableSupply": 18877868,
     ...
+  }
 }
 
 cat bitcoin_price.txt | grep -oE "\"price\"\s*:\s*[0-9]*?\.[0-9]*"
