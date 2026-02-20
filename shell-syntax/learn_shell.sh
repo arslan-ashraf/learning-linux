@@ -201,7 +201,7 @@ cat error.txt # nothing: command not found
 # &> redirects standard out and standard error
 ./script.sh &> file.log
 
-# 2>&1 redirects standard error to the same file file as standard output
+# 2>&1 redirects standard error to the same file as standard output
 # the line below sends standard output and standard errors from script.sh
 # into logs.txt, this duplicates file descriptor 1 and makes file descript 2
 # point to that duplicate, the open file description table (which holds
@@ -210,15 +210,18 @@ cat error.txt # nothing: command not found
 # to which both file descriptors point to, the dup() and dup2() system calls
 # do the same thing
 ./script.sh > logs.txt 2>&1
+# order here matters, so the command below will send standard error to
+# the standard output file and then send standard output to logs.txt
+./script.sh 2>&1 > logs.txt
 
 #############################################################
 ########### END - WRITING & APPENDING INTO FILES ############
 #############################################################
 
 
-#############################################################
-########### START - SEARCHING FOR & INSIDE FILES ############
-#############################################################
+#####################################################################################
+########### START - READING, WRITING FILES, SEARCHING FOR & INSIDE FILES ############
+#####################################################################################
 
 # cp command = copy and paste
 # mv command = cut and paste
@@ -399,9 +402,10 @@ price using \"price\" is the string to match
 ? matches any single character 
 ?\. matches .
 
-#############################################################
-########### END - SEARCHING FOR & INSIDE FILES ##############
-#############################################################
+
+#####################################################################################
+############ END - READING, WRITING FILES, SEARCHING FOR & INSIDE FILES #############
+#####################################################################################
 
 
 #############################################################
@@ -518,7 +522,7 @@ echo "test" | base64 | base64 -d
 # a shell script file when errors occur but the type of error which stops 
 # the file from running is dependant on the flag given to the "set" command
 
-# immediately exit if any command has a non zero exit code (use $? to see
+# immediately exit if any command has a non zero exit code (use echo $? to see
 # exit code of last run command)
 set -e
 
