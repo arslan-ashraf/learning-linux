@@ -43,6 +43,9 @@ ls -al # for hidden files as well
 # list directories and its subdirectories/files recursively
 ls -R
 
+# to view the inode number of files:
+ls -i
+
 # multiple commands in a single line with ;
 ls; ls -l
 

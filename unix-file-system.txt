@@ -1,12 +1,8 @@
-What is a symlink (symbolic link, soft link)?
-A special kind of file that serves as a pointer to another file/directory.
-It stores the pathname of the target file/directory.  The OS automatically
-resolves to the target file/directory when the symlink is accessed.  This 
-is why if the target file is deleted or moved, the symlink becomes dangling. 
-A symbolic link can also point to files/directories in another file system
-on the same or remote drive.  The purpose of symbolic links is to simplify paths and allow access to files across different file systems on the same drive or remote drives.
+----------------- What is a symlink (symbolic link, soft link)? ------------------
 
-To create a symlink, use the link command ln:
+A special kind of file that serves as a pointer to another file/directory.  It stores the pathname of the target file/directory.  The OS automatically resolves to the target file/directory when the symlink is accessed.  This is why if the target file is deleted or moved, the symlink becomes dangling.  But if a new file is created with the same name, the symlink will now point to this new file which may or may not be problematic.  A symbolic link can also point to files/directories in another file system on the same or remote drive.  The purpose of symbolic links is to simplify paths and allow access to files across different file systems on the same drive or remote drives.
+
+To create a symlink, use the link program ln with the -s flag for soft link:
 ln -s <path_to_existing_file/directory> <path_to_symlink_file>
 Now, the file/directory can be accessed using the symlink just like the original
 
@@ -17,3 +13,20 @@ An 'l' appears at the beginning of permissions column
 
 To remove a symlink:
 rm <path_to_symlink_file>
+
+===================================================================================
+
+----------------------------- What is a hard link? --------------------------------
+
+Every file has an entry in a directory that points to a file's inode.  Each of
+these entries counts as one hard link.  The command "ls -l" shows a number to the
+right of the permissions column which tells how many hard links there are to that file.  Creating an additional hard link only adds an entry in the directory which contains the file.  This new entry simply points to the same inode of the file.  Hence, deleting a hard link does not delete the file unless the hard link count drops to 0 for the file.  However, hard links cannot point to directories or files on different file systems.
+
+To create a hard link, we use the link program:
+ln <path_to_file> <path_to_new_hard_link>
+
+To see the hard link count, see column to the right of permissions column:
+ls -l
+
+If we check the inode number for all hard links to a file, it should be the same:
+ls -li <path_to_file> <path_to_hard_link> <path_to_hard_link>
