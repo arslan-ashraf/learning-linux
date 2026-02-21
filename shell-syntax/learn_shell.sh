@@ -21,8 +21,8 @@ which echo
 # Go back to the previous directory, handy if you want to go back and forth between directories
 cd -
 
-# unknown, to be checked
-ls -l /
+# shows the root directory
+ls /
 
 # show hidden files
 ls -a
