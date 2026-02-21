@@ -1,4 +1,13 @@
------------------ What is a symlink (symbolic link, soft link)? ------------------
+------------------------------- What is a file ?-----------------------------------
+
+A file is composed of three pieces of data in Unix: an entry in a directory (root is always the base directory), the inode which holds all the metadata including creation, update, access timestamps, permissions, hard link count, pointers/addresses to data (the entry in directory points to inode), and the actual data.
+
+During file system mount, space is reserved for the total number of inodes in that the file system can support.  This space cannot be used for anything else.  This is why there is a limit to how many inodes a file system can support and hence it is possible to run out of inodes while there is still disk space.
+
+
+===================================================================================
+
+----------------- What is a symlink (symbolic link, soft link)? -------------------
 
 A special kind of file that serves as a pointer to another file/directory.  It stores the pathname of the target file/directory.  The OS automatically resolves to the target file/directory when the symlink is accessed.  This is why if the target file is deleted or moved, the symlink becomes dangling.  But if a new file is created with the same name, the symlink will now point to this new file which may or may not be problematic.  A symbolic link can also point to files/directories in another file system on the same or remote drive.  The purpose of symbolic links is to simplify paths and allow access to files across different file systems on the same drive or remote drives.
 
@@ -20,7 +29,7 @@ rm <path_to_symlink_file>
 
 Every file has an entry in a directory that points to a file's inode.  Each of
 these entries counts as one hard link.  The command "ls -l" shows a number to the
-right of the permissions column which tells how many hard links there are to that file.  Creating an additional hard link only adds an entry in the directory which contains the file.  This new entry simply points to the same inode of the file.  Hence, deleting a hard link does not delete the file unless the hard link count drops to 0 for the file.  However, hard links cannot point to directories or files on different file systems.
+right of the permissions column which tells how many hard links there are to that file.  Creating an additional hard link only adds an entry in the directory which contains the file.  This new entry simply points to the same inode of the file.  Hence, deleting a hard link does not delete the file unless the hard link count drops to 0 for the file.  However, hard links cannot point to directories (to prevent loops) or files on different file systems.
 
 To create a hard link, we use the link program:
 ln <path_to_file> <path_to_new_hard_link>
