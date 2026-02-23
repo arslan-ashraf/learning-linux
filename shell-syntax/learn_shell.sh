@@ -33,9 +33,11 @@ ls -al # for hidden files as well
 
 # drwxr-xr-x - d indicates this is a directory, r is for read, w is for write which includes
 # the permission to delete and update, and x is for execute
+
 # There are three groups of three permissions each, the first three letters after d are 
 # permissions for the owner of the file, the next three are for the group that owns the file, and 
 # the last three are permissions for everyone else
+
 # in the result for ls -l command, the second column shows the number of hard links to the file,
 # the third column is the user that owns the file, the fourth column is group owner
 # the fifth column is the last date and time the file was touched, meaning created/updated
@@ -144,14 +146,38 @@ id
 # print user id number
 id -u
 
+# file permissions define 'u' for file owner, 'g' for group, and 'o' for other uesrs
+
+# for example: drwxrw-r--  permissions mean: 
+# d for directory, first rwx are for owner 'u', the second rw- are for group 'g',
+# and the last three r-- are for others 'o'
+
+
+# chmod command assigns file permissions
+
 # remove read permissions with "-r" from group "g" and other "o"
 chmod go-r file.txt
 
-# add read permissions with "-r" from group "g" and other "o"
+# add read permissions with "+r" from group "g" and other "o"
 chmod go+r file.txt
 
 # change permissions to execute a file
 chmod +x file_name
+
+# chown command can change owner/group of a file
+# only root or user with sudo privileges can use chown
+
+# to change the owner and group of a file/s
+chown <new_owner>:<new_group> <file_name> <file_name>
+
+# to change the owner of a file/s
+chown <new_owner> <file_name> <file_name>
+
+# to change the group of a file/s
+chown :<new_group> <file_name> <file_name>
+
+# use -R flag for a recursive change in a directory
+chown -R <new_owner>:<new_group> <directory_name>
 
 
 #############################################################
