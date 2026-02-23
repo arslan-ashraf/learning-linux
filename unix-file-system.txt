@@ -1,4 +1,4 @@
-------------------------------- What is a file ?-----------------------------------
+------------------------------- What is a file? -----------------------------------
 
 A file is composed of three pieces of data in Unix: an entry in a directory (root is always the base directory), the inode which holds all the metadata including creation, update, access timestamps, permissions, hard link count, pointers/addresses to data (the entry in directory points to inode), and the actual data.
 

@@ -72,15 +72,6 @@ shellcheck srcipt_file.sh
 printenv
 
 
-# print username
-whoami # or
-id -u -n
-
-# print id information
-id 
-# print user id number
-id -u
-
 #############################################################
 ####### END - ECHO, CD, LS, MAN, PRINTENV, SHELLCHECK #######
 #############################################################
@@ -89,6 +80,7 @@ id -u
 #############################################################
 ################# START - BUILT-IN VARIABLES ################
 #############################################################
+
 
 # variables starting with $, use them with echo to see output
 $0 = name of current file 
@@ -108,14 +100,49 @@ tr ':' '\n' <<< $PATH # trims : and displays each split value on a new line
 # another way using "tr" which trims the first argument and replaces with second
 echo $PATH | tr ':' '\n'
 
+
 #############################################################
-################# START - BUILT-IN VARIABLES ################
+################## END - BUILT-IN VARIABLES #################
 #############################################################
 
 
 #############################################################
-#################### START - PERMISSIONS ####################
+################ START - USERS & PERMISSIONS ################
 #############################################################
+
+
+# there are three type of users: root user, regular users, and service users
+
+# Root user: has user ID 0, highest privileges, only one root user on the system
+# Regular users: can have temporary root privileges through sudo
+# Service uesrs: for specific tasks such as running a webserverm database server, etc.
+
+
+# all users have primary group and users can be further assigned to an arbitrary 
+# number of groups
+
+# on Linux, all user information is stored on the etc/passwd which shows user ID,
+# group ID, default shell, home directory, etc., but no passwords, readable by all users
+
+# etc/shadow stores the encrypted passwords and expiration dates, its readable
+# only by root user or those that have temporary root access
+
+# etc/group contains group info and their members, readable by all users
+
+# etc/sudoes file lists which users are allowed temporary root privileges with sudo
+
+# in some distros, users that are allowed to use sudo belong to the 'sudo group'
+# or 'wheel group'
+
+
+# print username
+whoami # or
+id -u -n
+
+# print id information
+id 
+# print user id number
+id -u
 
 # remove read permissions with "-r" from group "g" and other "o"
 chmod go-r file.txt
@@ -126,9 +153,11 @@ chmod go+r file.txt
 # change permissions to execute a file
 chmod +x file_name
 
+
 #############################################################
-##################### END - PERMISSIONS #####################
+################# END - USERS & PERMISSIONS #################
 #############################################################
+
 
 #############################################################
 ############ START - VARIABLES, PIPES & FILTERS #############
