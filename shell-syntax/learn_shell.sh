@@ -179,6 +179,9 @@ chown :<new_group> <file_name> <file_name>
 # use -R flag for a recursive change in a directory
 chown -R <new_owner>:<new_group> <directory_name>
 
+# NOTE: in order for a directory to have write permissions, it also needs the
+# execute permissions as that's required to enter into directory and traversal
+
 
 #############################################################
 ################# END - USERS & PERMISSIONS #################
