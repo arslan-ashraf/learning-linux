@@ -550,7 +550,11 @@ ping <website>
 ping -c 5 <website> # a set number of ping results
 
 
-# how to run 
+# how to run a background job
+ping -n 100 <website> &
+
+# check all running background jobs
+jobs
 
 
 # transfer data to and from URLs
