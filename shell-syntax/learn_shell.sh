@@ -477,9 +477,12 @@ price using \"price\" is the string to match
 #####################################################################################
 
 
+
+
 ################################################################################
 ################## START - JOBS, OS, NETORKING, DOWNLOADING ####################
 ################################################################################
+
 
 # hostname of machine
 hostname
@@ -560,6 +563,19 @@ ping -n 100 <website> &
 
 # check all running background jobs
 jobs
+
+# bring a background job to the foreground
+# note: only foreground jobs can receive keyboard input including ctrl c to quit
+fg %<job_id>
+
+# to pause a job, run job in the foreground such as:
+ping -n 10 <website>
+# then, ctrl z to stop the job (this sends a SIGSTOP signal to process but
+# the process may choose to ignore it), the jobs command will show list of jobs, 
+# to resume the job in the foreground (this sends a SIGCONT signal to process):
+fg %<job_id>
+# to resume the job in the background:
+bg %<job_id>
 
 
 # transfer data to and from URLs
