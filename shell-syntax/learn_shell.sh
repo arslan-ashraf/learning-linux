@@ -530,7 +530,12 @@ pgrep -f <process_name>
 renice -n 19 $(pgrep -f chrome)
 
 
+# benchmarking tool, evaluates CPU, memory, file I/O, databases and more
 sysbench
+
+# tests CPU performance by calculating prime numbers
+sysbench cpu run --threads=<number_of_threads> --cpu-max-prime=<limit>
+
 
 
 # list all signals numbers 1-64 which include SIGTERM, SIGKILL, SIGCHLD, etc.
