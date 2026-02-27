@@ -60,6 +60,11 @@ man <command>
 example: man grep
 
 
+# /proc file contains list of processes
+# show process info for process 12345
+cat /proc/12345/status
+
+
 # Replace a command with its output
 my_path=$(pwd) # or using another way using backticks
 my_path=`pwd`
@@ -496,10 +501,43 @@ df -h ~
 top
 top -n 3
 
+# a better program for showing running processes
+htop 
 
-# print running processes
+
+# print -a all running processes for -e every user in -l long format
 ps 
-ps -e
+ps -eal
+
+
+# watches the command grep <string> <file> every five seconds
+watch -n 0.5 grep <string> <file>
+
+
+# sets process priority, lower niceness, higher priority
+# priorities range from -20 highest priority to 19 lowest priority
+nice # sets priority of a new process
+renice # sets priority of an already running process
+
+
+# return process id of process with specific <process_name>
+# -f flag returns all process ids with <process_name> somewhere
+pgrep <process_name>
+pgrep -f <process_name>
+
+
+# sets lowest priority 19 for all chrome processes
+renice -n 19 $(pgrep -f chrome)
+
+
+sysbench
+
+
+# list all signals numbers 1-64 which include SIGTERM, SIGKILL, SIGCHLD, etc.
+kill -l
+
+# end the chrome process politely it can perform cleanup with SIGTERM signal
+kill -s SIGTERM $(pgrep chrome)
 
 
 # interface configuration
