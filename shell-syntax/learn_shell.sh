@@ -577,6 +577,12 @@ fg %<job_id>
 # to resume the job in the background:
 bg %<job_id>
 
+# to terminate a job with the SIGTERM signal, if this doesn't work, use SIGKILL
+kill -s SIGTERM $<job_id>
+
+# to terminate a job with the SIGKILL signal
+kill -s SIGKILL $<job_id>
+
 
 # transfer data to and from URLs
 curl <website> # returns the entire html of webpage
