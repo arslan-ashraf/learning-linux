@@ -561,7 +561,8 @@ ping -c 5 <website> # a set number of ping results
 # how to run a background job
 ping -n 100 <website> &
 
-# check all running background jobs
+# check all running background jobs, the '+' sign indicates most recent job and
+# the '-' sign indicates the second most recent job
 jobs
 
 # bring a background job to the foreground
@@ -582,6 +583,31 @@ kill -s SIGTERM $<job_id>
 
 # to terminate a job with the SIGKILL signal
 kill -s SIGKILL $<job_id>
+
+# 'wait' command waits for jobs, let's say there are three background jobs that
+# are all executing and we need to wait for all of them to finish and then
+# do something, that's what 'wait' is useful for, 'wait' listens for the process
+# state of each job
+wait
+wait <process_id>
+wait %<job_id>
+wait -n   # wait for any job to be completed
+
+# ---------------------------
+# ----------SIGHUP ----------
+# ---------------------------
+# when the terminal closes (or ssh session disconnects for example), the kernel
+# sends the SIGHUP signal to processes running within that terminal which causes
+# those processes to terminate
+
+# another application of SIGHUP is when we want a long running process running 
+# without a terminal to reload configuration files, flush caches or shut down
+# connections gracefully
+
+# to prevent a process from terminating even after the terminal is closed, use
+nohup <command_to_run>
+nohup <command_to_run> &      # runn command in background
+# nohup disconnects to running process from the SIGHUP signal
 
 
 # transfer data to and from URLs
