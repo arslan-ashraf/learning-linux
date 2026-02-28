@@ -1,0 +1,19 @@
+-------------------- What are the key components of the kernel? -------------------
+
+PROCESS MANAGEMENT - virtualizing the CPU, managing processes & threads and their
+scheduling, facilitating multitasking, interprocess communication
+
+MEMORY MANAGEMENT - virtualizing physical memory, allocating and deallocating 
+memory to processes/threads
+
+FILE SYSTEM MANAGEMENT - facilitating file I/O, organizing, storing and retrieving
+data efficiently using caching, kernel memory buffers for reads & writes
+
+NETWORKING STACK - implementing TCP/UDP and IP protocols
+
+DEVICE DRIVERS - handling software(signals) and hardware interrupts and device I/O
+
+SYSTEM CALL APIs - a mechanism for user programs to call the kernel
+
+
+===================================================================================
