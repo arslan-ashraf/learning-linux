@@ -610,6 +610,11 @@ nohup <command_to_run> &      # runn command in background
 # nohup disconnects to running process from the SIGHUP signal
 
 
+# the kernel can be extended with kernel modules to add new device drivers
+# or perhaps another file system
+lsmod   # lists all kernel modules installed
+
+
 # transfer data to and from URLs
 curl <website> # returns the entire html of webpage
 # write the resulting html into file.txt
