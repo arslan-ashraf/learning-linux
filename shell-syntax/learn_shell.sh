@@ -94,7 +94,8 @@ $0 = name of current file
 $# = number of variables passed into file or function depending on scope
 $@ = list all arguments to a function
 $? = the status code of last shell command 
-$$ = some number (id or memory location)?
+$$ = current process id
+$* = provides all arguments as a single string
 $1 = first argument to file or function depending on scope
 $n = nth argument to file or function depending on scope
 $PATH = all paths in the PATH variable
@@ -240,6 +241,51 @@ ls -l / | tail -n3
 
 
 #############################################################
+#################### START - ARITHMETIC #####################
+#############################################################
+
+NUM1=3
+NUM2=4
+
+# with double brackets ((  )), $ symbol in front of variable names is not needed
+# and there can be spaces around = symbol
+(( result = NUM1 + NUM2 ))
+echo "${result}" # or echo $(( NUM1 + NUM2 ))
+
+# bash can behave strangely with arithmetic, so it is best practice to always
+# wrap all arithemtic operations inside ((  ))
+
+# standard bash variables are untyped, the declare command allows one to enfore
+# types and properties
+
+# declare a variable of integer type and automatically perform arithmetic 
+# upon assignment
+declare -i integer_variable
+integer_variable=5
+integer_variable=$(( 5 *3 ))
+
+# declare an indexed array
+declare -a my_variable
+
+# declare key-value pairs
+declare -A my_variable
+
+# -r is for read only, -x exports the variable to the child process's environment 
+# -l converts all assigned values to lowercase
+declare -rxl my_variable
+
+
+# bash doesn't really support floating point operations, to perform floats
+echo "5.4 / 1.7" | bc 
+# "5.4 / 1.7" is just an ordinary string, bc is basic calculator
+
+
+#############################################################
+##################### END - ARITHMETIC ######################
+#############################################################
+
+
+#############################################################
 ########## START - WRITING & APPENDING INTO FILES ###########
 #############################################################
 
@@ -328,12 +374,16 @@ rm -r directory_with_contents_to_delete
 rmdir empty_directory_to_delete
 
 ############# READING FILE CONTENTS ############
+
 # print the first 10 lines in a file
 head <file_name>
-head -n3 <file_name> # print first 3 lines
+head -n 3 <file_name> # print first 3 lines
+
 # print the last 10 lines in a file
 tail <file_name>
-tail -n3 <file_name>
+tail -n 3 <file_name>   # print the last 3 lines
+tail -f <file_name>   # print the most recent lines live as they come in
+
 # when a file is large, print it page by page, enter q to quit
 more <file_name> 
 
@@ -344,6 +394,19 @@ wc -w file.txt # view only word count
 wc -w < file.txt # another way to view word count
 # character count
 wc -c file.txt
+
+# we look at two commands which do the same thing but in different ways
+ls | wc -l
+wc -l < <(ls)
+
+# in the first command above: ls | wc -l, ls is executed in the main shell,
+# while wc -l is executed in the subshell
+
+# in the second command above: wc -l < <(ls), the first less than < gets 
+# input to the wc program, the second < with ls as <(ls) is process substitution
+# which means that <(ls) gets executed in the subshell while wc -l gets executed
+# in the main shell program
+wc -l < <(ls)
 
 
 # sort the lines of a file
@@ -407,29 +470,35 @@ GOLDFISH
 PARROT
 
 # the grep command: "global regular expression print", is a command for searching 
-# and matching text format of the command: grep "string" file_name or file_name 
-# grep "string" to search for a string in the current directory and all of its 
+# and matching text format of the command, usage for searching in one file:
+grep "example_string" <file_name> # or 
+<file_name> grep "string" 
+
+# to search for a string in the current directory in all files
+grep "example_string" *
+
+# to search for a string in the current directory and all of its 
 # subdirectories: note: -r is for recursive, -i is for ignoring case sensitivity
-grep -r "example" *
+grep -r "example_string" *
 
-# -c is for counting the number of lines that match the string
-grep -c "example" file_name
+# -c is for counting the number of lines that match the example_string
+grep -c "example_string" file_name
 
-# print all lines that do NOT contain the matching string
-grep -v "example" file_name
+# print all lines that do NOT contain the matching example_string
+grep -v "example_string" file_name
 
-# number the lines that contain the matching string
-grep -n "example" file_name
+# number the lines that contain the matching example_string
+grep -n "example_string" file_name
 
 # search for exact matching word
-grep -w "example" file_name
+grep -w "example_string" file_name
 
 # to find out if a package has been installed
 dpkg -l | grep -i "package_name"
 
 # print 3 lines after and before the search text, -A flag for after, -B flag for before
-grep -A 3 "example" file_name
-grep -B 3 "example" file_name
+grep -A 3 "example_string" file_name
+grep -B 3 "example_string" file_name
 
 # grep with regular expressions
 ^     matches characters at the beginning of a line
@@ -688,6 +757,21 @@ echo "test" | base64 | base64 -d
 ################################################################################
 
 
+# see exit code of the previously run command
+echo $?
+# exit code 0 is for success
+# any nonzero exit code is failure
+# exit code 127 is for command not found
+
+# joining commands with : and &&
+command; command
+command && command
+# both can be used to run multiple commands but there is a difference
+# ; always executes the second command but && is the logical and, this only 
+# executes the second command if the first succeeds
+# logical or ||
+command || command
+
 # the shell script file will continue to execute commands one by one even 
 # if some of them fail, in the command line, you get immediate explicit errors
 # but this is not the case when executing a shell script file
@@ -729,10 +813,10 @@ set -x
 ######################## START - SOURCING A SHELL FILE #########################
 ################################################################################
 
-# the notion of sourcing is to make all the variables, aliases,
-# and functions avaiable to the current shell process, meaning if
-# an alias is defined inside the file, sourcing will bring that
-# alias outside the file and into the current shell process
+# the notion of sourcing is to make all the variables, aliases, and functions 
+# of a child shell process available to the current shell process, or if 
+# an alias/variable is defined inside a script file, sourcing will bring that 
+# alias/variable outside the file and into the current shell process
 
 # note: the shell process runs aliases first, then user defined 
 # functions, then built-in functions, and finally path executable files
