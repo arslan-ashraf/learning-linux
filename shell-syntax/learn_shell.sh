@@ -398,14 +398,16 @@ wc -c file.txt
 # we look at two commands which do the same thing but in different ways
 ls | wc -l
 wc -l < <(ls)
+# <(command) writes its output to a temporary file which then gets fed as 
+# standard input with the leftmost < in the word count program wc -l
 
 # in the first command above: ls | wc -l, ls is executed in the main shell,
-# while wc -l is executed in the subshell
+# while wc -l is executed in the subshell as a subprocess
 
 # in the second command above: wc -l < <(ls), the first less than < gets 
 # input to the wc program, the second < with ls as <(ls) is process substitution
-# which means that <(ls) gets executed in the subshell while wc -l gets executed
-# in the main shell program
+# which means that <(ls) gets executed in the subshell as a subprocess
+# while wc -l gets executed in the main shell program
 wc -l < <(ls)
 
 
@@ -763,7 +765,7 @@ echo $?
 # any nonzero exit code is failure
 # exit code 127 is for command not found
 
-# joining commands with : and &&
+# joining commands with ; and &&
 command; command
 command && command
 # both can be used to run multiple commands but there is a difference

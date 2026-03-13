@@ -70,6 +70,7 @@ echo "5.4 / 1.7" | bc
 
 # we can check whether a file has various properties with file checks
 # use command "man test" to see more
+[ -n file_name ]		true if file_name length is 0
 [ -d file_name ]		true if file is a directory
 [ -e file_name ]		true if file exists
 [ -f file_name ]		true if string is a file
@@ -127,9 +128,10 @@ done
 
 ARRAY=(zero one two three four)
 echo $ARRAY
-echo ${ARRAY}
-echo ${ARRAY[@]}
-echo ${ARRAY[4]}
+echo "${ARRAY}"
+echo "${ARRAY[@]}"		# outputs the whole array
+echo "${#ARRAY[@]}"		# outputs length of array
+echo "${ARRAY[4]}"
 echo "Now for loop"
 
 for item in ${ARRAY[@]}; 
@@ -157,22 +159,52 @@ do
 done < "example.txt" # input to the while loop
 
 
+# note in bash, all variables defined anywhere are global by defualt
+# function keyword to the left of function name can be ommitted
+# example_function(){ ... }  # also works
 function example_function(){
 	echo "dollar 0 is name of current file $0"
-	echo "dollar @ lists all the arguments "
-	echo "dollar # is number of arguments"
+	echo "dollar @ lists all the arguments $@"
+	echo "dollar # is number of arguments $#"
 	echo "first variable $1"
 	echo "second variable $2"
+	local my_variable=4 # to ensure my_variable has local scope
 }
 
 example_function "a", "b"
+
+function use_default_value(){
+	local name=${1:-"world"}
+	echo "hi $1"
+}
+
+use_default_value 			# prints hi world
+use_default_value linux 	# prints hi linux
+
+# functions are just programs in bash and return status codes by default 0
+# so they only return integers, to pass data from one function to another
+# one function can write to standard out stream, the receiving function 
+# can use that as its standard input stream
+
+function first(){
+	echo "first function's output"
+	return 0
+}
+
+function second(){
+	local message=$(first)
+	echo "${message}"
+	return 0
+}
+
+second
 
 show_uptime(){
 	up=$(uptime -p | cut -c4-)
 	since=$(uptime -s)
 	cat << EOF
 -------------
-This machine have been up to ${up}.
+This machine have been up for ${up}.
 It has been running since ${since}.
 -------------
 EOF
