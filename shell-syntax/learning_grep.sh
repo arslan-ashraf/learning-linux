@@ -3,37 +3,43 @@
 grep "example_string" <file_name> # or 
 <file_name> grep "string" 
 
+# to read about a flag, e.g. the -F flag, use:
+grep --help | grep --color "F"
+
 # to search for a string in the current directory in all files
-grep "example_string" *
+grep --color "example_string" *
 
 # to search for a string in the current directory and all of its 
 # subdirectories: note: -r is for recursive, -i is for ignoring case sensitivity
 # -F is for fix-strings, no regex
-grep -riF "example_string" *
+grep -riF --color "example_string" *
 
 # -c is for counting the number of lines that match the example_string
-grep -c "example_string" file_name
+grep -c --color "example_string" file_name
 
-# print all lines that do NOT contain the matching example_string
-grep -v "example_string" file_name
+# print all lines that do NOT contain the matching example_string, -v is invert-match
+grep -v --color "example_string" file_name
 
-# number the lines that contain the matching example_string
-grep -n "example_string" file_name
+# number the lines that contain the matching example_string, -n is for line-number
+grep -n --color "example_string" file_name
 
 # search for exact matching word
-grep -w "example_string" file_name
+grep -w --color "example_string" file_name
 
 # to find out if a package has been installed
-dpkg -l | grep -i "package_name"
+dpkg -l | grep -i --color "package_name"
 
 # print 3 lines after and before the search text, -A flag for after, -B flag for before
-grep -A 3 "example_string" file_name
-grep -B 3 "example_string" file_name
+grep -A 3 --color "example_string" file_name
+grep -B 3 --color "example_string" file_name
 
 # grep with regular expressions
-^     matches characters at the beginning of a line
-$     matches characters at the end of a line
-"."   matches any character
+"^"     matches characters at the beginning of a line
+"$"     matches characters at the end of a line
+"."   matches any character except for the newline character
+"[_*]"   matches zero or more of the previous character
+"[c*]"  matches zero or more c characters
+"[.*]"  matches zero or more of any character, note: "[.*]" != ".*"
 [a-z] matches any characters between a and z
 [^ ..]  matches anything apart from what is in the brackets
 
@@ -55,7 +61,7 @@ $     matches characters at the end of a line
   }
 }
 
-cat bitcoin_price.txt | grep -oE "\"price\"\s*:\s*[0-9]*?\.[0-9]*"
+cat bitcoin_price.txt | grep -oE --color "\"price\"\s*:\s*[0-9]*?\.[0-9]*"
 
 -o tells grep to only return matching part 
 -E tell grep to be able to use regex symbols such as ?

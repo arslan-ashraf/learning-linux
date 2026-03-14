@@ -566,7 +566,7 @@ uname -v # detailed info
 uname -s -r # os name with version number
 
 
-# show disk usage with "disk free"
+# show disk usage with "disk free", -h for human readable
 df -h
 df -h ~     # ~ is the home path
 
