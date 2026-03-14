@@ -568,7 +568,10 @@ uname -s -r # os name with version number
 
 # show disk usage with "disk free"
 df -h
-df -h ~
+df -h ~     # ~ is the home path
+
+# disk usage with du command
+du -sm <directory_name>       # -s summarize, -m in megabytes
 
 
 # show running processes and CPU and RAM consumption with "table of processes"
@@ -707,31 +710,44 @@ wget <file_to_download>
 ################################################################################
 
 
-# archive and dearchive (extract) files or directories using "tape archiver"
-tar -cf <file_name>.tar <file_name>
-tar -cf <directory_name>.tar <directory_name>
+# archiving is the notion of taking a bunch of files and combining them
+# into a single bundle with now compression
+
+# archive files or directories using "tape archiver"
+tar -cf <my_archive>.tar <file_name> <file_name>  # -c create new archive
+tar -cf <my_archive>.tar <directory_name>         # -f to provide name, my_archive
+# note: without -f, the output will go to standard out stream
 
 # to also compress using gzip
 # NOTE: TAR FIRST BUNDLES INTO 'TARBALL' AND THEN COMPRESSES THE TARBALL
 tar -czf <file_name>.tar.gz <file_name>
 tar -czf <directory_name>.tar.gz <directory_name>
 
-# list archived contents
-tar -tf <file_name>.tar 
-tar -tf <directory_name>.tar 
-
-# extract files and folders
-tar -xf <file_name>.tar <file_name>
-tar -xf <directory_name>.tar <directory_name>
-
 # decompress and extract files and folders
 tar -xzf <file_name>.tar.gz <file_name>
 tar -xzf <directory_name>.tar.gz <directory_name>
 
+# to  compress using bzip2
+tar -cjf <file_name>.tar.gz <file_name>
+tar -cjf <directory_name>.tar.gz <directory_name>
+# to compress using the xz algorithm, change -j flag to -J flag
+
+# decompress and extract files and folders compressed with bzip2
+tar -xjf <file_name>.tar.gz <file_name>
+tar -xjf <directory_name>.tar.gz <directory_name>
+
+# list archived contents
+tar -tf <file_name>.tar 
+tar -tf <directory_name>.tar 
+
+# extract files and folders with -x
+tar -xf <file_name>.tar <file_name>
+tar -xf <directory_name>.tar <directory_name>
+
 
 # compress files and directories
 # NOTE: ZIP FIRST COMPRESSES AND THEN BUNDLES, TAR DOES IT IN REVERSE
-zip -r <file_name>.zip <file_name>
+zip -r <file_name>.zip <file_name> <file_name>
 zip -r <directory_name>.zip <directory_name>
 
 # uncompress files and directories

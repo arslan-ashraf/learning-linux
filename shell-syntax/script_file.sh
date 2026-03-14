@@ -199,6 +199,17 @@ function second(){
 
 second
 
+
+
+function cleanup_function(){
+	echo "performing clearning before terminating"
+	return 0 				# return statement must be set
+}
+
+# if a terminate SIGTERM or interrupt SIGINT signal is sent to the running script
+# we can perform cleanup with the "trap" command as follows:
+trap cleanup_function SIGTERM SIGINT
+
 show_uptime(){
 	up=$(uptime -p | cut -c4-)
 	since=$(uptime -s)
@@ -208,6 +219,10 @@ This machine have been up for ${up}.
 It has been running since ${since}.
 -------------
 EOF
+	# turn uptime row of data into an array with -a flag
+	read -a uptime_info < <(uptime)
+	# uptime_info is now an array (11:08 up 1:59 3 users load_averages: 4:3)
+	echo "Machine running since ${uptime_info[0]}"
 }
 
 show_uptime
